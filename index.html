@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ระบบประเมิน นนอ. พัน.2</title>
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: linear-gradient(to bottom, #edf2f7, #fff);
+      margin: 0; padding: 0;
+    }
+    header {
+      background-color: #2f4858;
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label, select, input[type=number] {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+    }
+    select, input[type=number] {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .criteria {
+      margin-top: 1.5rem;
+    }
+    .criteria label {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #2f4858;
+    }
+    .navigation {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #2f4858;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4e6e81;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ระบบการประเมินองค์ประกอบหลักของบุคคล ๕ ด้าน<br/>กองพันที่ ๒</h1>
+  </header>
+  <div class="container">
+    <label for="evaluator">เลือกชื่อผู้ประเมิน:</label>
+    <select id="evaluator">
+      <option>นนอ.ณัฐนันท์ แก้วนวล​​</option>
+      <option>นนอ.ณัฐชนน จันทร์แพง​​</option>
+      <option>นนอ.จันทน์ผา รังสินธุ์​​</option>
+      <option>นนอ.วรินทร บูรพาพัธ​​</option>
+      <option>นนอ.วชิรวิทย์ นกเอี้ยงทอง​</option>
+      <option>นนอ.ปฏิญาณ บุญยุภู​​</option>
+      <option>นนอ.ณัฐนนท์ ผลศรัทธา</option>
+      <option>นนอ.ตรีทศ ลีรักพานิช​​</option>
+    </select>
+
+    <div id="cadet-area">
+      <h2 id="cadet-name">รหัส 2A-01: นนอ.ธราดล พื้นชมภู</h2>
+
+      <div id="scores" class="criteria"></div>
+
+      <div class="navigation">
+        <button onclick="prevCadet()">ย้อนกลับ</button>
+        <button onclick="nextCadet()">ถัดไป</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cadets = [
+      { code: "2A-01", name: "นนอ.ธราดล พื้นชมภู" },
+      { code: "2A-02", name: "นนอ.XXXX ตัวอย่าง" },
+      { code: "2A-03", name: "นนอ.YYYY ตัวอย่าง" }
+    ];
+
+    const criteria = [
+      "ความจงรักภักดีต่อสถาบันชาติ ศาสนา พระมหากษัตริย์",
+      "การปฏิบัติตนตามกฎ ระเบียบแบบธรรมเนียมทหาร",
+      "ความซื่อสัตย์ สุจริต",
+      "ความเสียสละ ความมุ่งมั่นอดทน",
+      "ความเป็นผู้นำและการทำงานเป็นทีม",
+      "ความกล้าในการตัดสินใจและกล้ารับผิด",
+      "ความรับผิดชอบต่อหน้าที่",
+      "บุคลิกภาพและความเชื่อมั่น",
+      "ความสามารถในการปรับตัวและมีมนุษยสัมพันธ์",
+      "ความคิดสร้างสรรค์และทัศนคติเชิงบวก"
+    ];
+
+    let currentIndex = 0;
+    const scoreContainer = document.getElementById("scores");
+    const cadetName = document.getElementById("cadet-name");
+
+    function renderForm() {
+      cadetName.innerText = `รหัส ${cadets[currentIndex].code}: ${cadets[currentIndex].name}`;
+      scoreContainer.innerHTML = "";
+      criteria.forEach((c, i) => {
+        const label = document.createElement("label");
+        label.innerText = `${i + 1}. ${c}`;
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = 1;
+        input.max = 10;
+        input.required = true;
+        input.name = `score-${i}`;
+        scoreContainer.appendChild(label);
+        scoreContainer.appendChild(input);
+      });
+    }
+
+    function nextCadet() {
+      if (currentIndex < cadets.length - 1) {
+        currentIndex++;
+        renderForm();
+      } else {
+        alert("ประเมินครบทุกนายแล้ว");
+      }
+    }
+
+    function prevCadet() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderForm();
+      }
+    }
+
+    renderForm();
+  </script>
+</body>
+</html>
